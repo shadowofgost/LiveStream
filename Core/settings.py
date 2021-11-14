@@ -13,3 +13,6 @@
  * @LastEditTime : 2021-10-23 18:02:25
  * @LastEditors  : Albert Wang
 '''
+from pydantic import BaseModel
+class Setting(BaseModel):
+    id = models.AutoField(primary_key=True)
