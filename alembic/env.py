@@ -1,10 +1,28 @@
+#!./env python
+# -*- coding: utf-8 -*-
+'''
+# @Time             : 2021-10-24 22:10:18
+# @Author           : Albert Wang
+# @Email            : shadowofgost@outlook.com
+# @Software         : Vscode
+# @FilePath         : /LiveStream/alembic/env.py
+# @Copyright Notice : Copyright 2021 Albert Wang 王子睿, All Rights Reserved.
+# @Copyright 2021 Albert Wang 王子睿, All Rights Reserved.
+# @Description      :
+# @LastTime         : 2021-12-11 01:08:52
+# @LastAuthor       : Albert Wang
+'''
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-
+import sys
+from os.path import abspath, dirname
+root = dirname(dirname(abspath(__file__))) # 把项目根目录加入 sys.path
+print(root)
+sys.path.append(root)
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -17,12 +35,13 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+from APPS.Database import Base
+target_metadata = Base
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
-# ... etc.
+# ... etc.al
 
 
 def run_migrations_offline():

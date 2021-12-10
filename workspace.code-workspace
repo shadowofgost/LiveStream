@@ -11,6 +11,7 @@
 			"MD025": {
 				"front_matter_title": ""
 			}
-		}
+		},
+		"livePreview.defaultPreviewPath": "/Templates/index.html"
 	}
 }

@@ -1,8 +1,119 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 23:12:06
- * @LastEditTime: 2021-10-12 11:10:33
- * @LastEditors: Albert Wang
+ * @LastTime         : 2021-12-04 10:12:41
+ * @LastAuthor       : Albert Wang
  * @Description: In User Settings Edit
- * @FilePath: \\LiveStream\\Templates\\index.html
+ * @FilePath         : /LiveStream/Templates/index.html
 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>flv.js demo</title>
+
+    <style>
+        .mainContainer {
+            display: block;
+            width: 1024px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .urlInput {
+            display: block;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .centeredVideo {
+            display: block;
+            width: 100%;
+            height: 576px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: auto;
+        }
+
+        .controls {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 8px;
+            margin-bottom: 10px;
+        }
+
+        .logcatBox {
+            border-color: #CCCCCC;
+            font-size: 11px;
+            font-family: Menlo, Consolas, monospace;
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mainContainer">
+        <video name="videoElement" class="centeredVideo" id="videoElement" controls width="1024" height="576" autoplay>
+            Your browser is too old which doesn't support HTML5 video.
+        </video>
+
+    </div>
+
+    <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.js"></script>
+
+    <script>
+         if (flvjs.isSupported()) {
+            startVideo()
+        }
+
+        function startVideo(){
+            var videoElement = document.getElementById('videoElement');
+            var flvPlayer = flvjs.createPlayer({
+
+                type: 'flv',
+                enableWorker: true,     //浏览器端开启flv.js的worker,多进程运行flv.js
+                isLive: true,           //直播模式
+                hasAudio: false,        //关闭音频
+                hasVideo: true,
+                stashInitialSize: 128,
+                enableStashBuffer: false,
+                url: 'http://127.0.0.1:8888/live?port=1938&app=live&stream=livestream'
+            });
+            flvPlayer.attachMediaElement(videoElement);
+            flvPlayer.load();
+            flvPlayer.play();
+        }
+
+        videoElement.addEventListener('click', function(){
+            alert( '是否支持点播视频：' + flvjs.getFeatureList().mseFlvPlayback + ' 是否支持httpflv直播流：' + flvjs.getFeatureList().mseLiveFlvPlayback )
+        })
+
+        function destoryVideo(){
+            flvPlayer.pause();
+            flvPlayer.unload();
+            flvPlayer.detachMediaElement();
+            flvPlayer.destroy();
+            flvPlayer = null;
+        }
+
+        function reloadVideo(){
+            destoryVideo()
+            startVideo()
+        }
+    </script>
+
+</body>
+
+</html>
